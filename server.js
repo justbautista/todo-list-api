@@ -2,12 +2,14 @@ require("dotenv").config()
 const express = require("express")
 const server = express()
 const cors = require("cors")
+const cookieParser = require("cookie-parser")
 
 server.use(express.json())
+server.use(cookieParser())
 
-server.get("/hello", (req, res) => {
-    res.send("Hello world!")
-})
+const authRouter = require("./routes/authRouter")
+
+server.use("/v1/auth", authRouter)
 
 const PORT = process.env.PORT || 8000
 server.listen(PORT, () => {
